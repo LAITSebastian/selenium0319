@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 
+@Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MenuTest {
 
@@ -21,24 +22,35 @@ public class MenuTest {
 	public void radioClick(String xpath) {
 		Init.log("Klikam w element z xpath: " + xpath);
 		driver.findElement(By.xpath(xpath)).click();
-		
 	}
-	
 	
 	@Before
 	public void bifor() {
-		// otwieramy przeglądarke przed testem
+		// otwieramy przeglądarke przed testem, 
 		Init.log("Otwieram okno przeglądarki");
 		driver = Init.getDriver();
 	}
 	
-	@Ignore
 	@Test
 	public void topMenu() {
 		linkClick("CONTACT");
+		//bezpośredni dostęp, znajdz element, otwierająca nawias poprowiadamy by.link tekst czy tekst w html,
 		driver.findElement(By.linkText("SUPPORT")).click();
+		// ta kanstrukcja daje nam jakiś guzik na st jakiś przycisk, i mozemy pobrać jego tekst kazać kliknąć, 
+		// zawsze click, wielkość znaków w ciapkach musi być taka sama,
 		driver.findElement(By.linkText("REGISTER")).click();
 		driver.findElement(By.linkText("SIGN-ON")).click();
+		Init.log(driver.getTitle());
+		
+		driver.findElement(By.name("userName")).sendKeys("sebastianautomat");
+		driver.findElement(By.name("password")).sendKeys("Lublin2019");
+		driver.findElement(By.name("login")).click();
+		//niżej podczepić xpath, tylko nie wiem czy odpowiedni połączyłem..
+		driver.findElement(By.xpath("/html/body/div/table/tbody/tr/td[2]/"
+				+ "table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/"
+				+ "tr[5]/td/form/table/tbody/tr[4]/td/input"));
+	
+		Init.sleep(2);
 	}
 	
 	@Ignore
@@ -54,7 +66,6 @@ public class MenuTest {
 	}
 	
 	@Test
-	
 	public void loginAndReservationLevel1() {
 		driver.findElement(By.linkText("SIGN-ON")).click();
 		Init.sleep(1);
@@ -135,8 +146,6 @@ public class MenuTest {
 	Init.log("Klikam w przycisk CONTINUE -->");
 	
 	Init.sleep(2);
-	
-	
 	
 	}
 	
