@@ -1,7 +1,14 @@
 package pl.lait.SELENIUM;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Init {
 
@@ -11,16 +18,29 @@ public class Init {
 	public static WebDriver getDriver() {
 		// tworze nowy obiekt webdrivera i importuje chroma
 		// "C://chromedriver_win32//chromedriver.exe"
-
+		//niżej pełno wymiarowy adres interntowy pod zmienna url
+		
+		URL url = null;
+		try {
+			url = new URL ("http://localhost:4444/wd/hub");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//to samo dla capabilities:
+		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		cap.setPlatform(Platform.WIN10);
 		System.setProperty("webdriver.chrome.driver", "C:\\chromedriver_win32\\chromedriver.exe");
 		if(driver==null) {
 			driver = new ChromeDriver();
+			driver = new RemoteWebDriver(url, cap);
 			driver.get("http://www.newtours.demoaut.com/");
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			return driver;
 		} else {
 			return driver;
-		}
-		
+		}		
 	}
 
 	public static void log(String msg) {
@@ -41,5 +61,4 @@ public class Init {
 			e.printStackTrace();
 		}
 	}
-
 }
